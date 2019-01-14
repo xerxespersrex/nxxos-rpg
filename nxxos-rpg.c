@@ -34,7 +34,7 @@ int getmap()
 	    for (temp2 = 0; temp2 < MAP_MAX; temp2++)
 	    {
 	        fscanf(fp, "%c", &map[temp1][temp2]);
-			if (map[temp1][temp2] == '\n')
+			 if (map[temp1][temp2] == '\n')
 			{
 				break;
 			}
@@ -56,13 +56,13 @@ int getmap()
 
 int printmap()
 {
-	int temp1, temp2 = 0;
+	int temp1, temp2;
 	printf("\n");
 	for (temp1 = 0; temp1 < MAP_MAX; temp1++)
 	{
 		for (temp2 = 0; temp2 < MAP_MAX; temp2++)
-	    {
-	        printf("%c", map[temp1][temp2]);
+		{
+			printf("%c", map[temp1][temp2]);
 			if (map[temp1][temp2] == '\n')
 			{
 				break;
@@ -80,14 +80,72 @@ int printmap()
 	printf("\n");
 }
 
+int scanmapforstartx()
+{
+	int temp1, temp2; 
+	for (temp1 = 0; temp1 < MAP_MAX; temp1++)
+	{
+		for (temp2 = 0; temp2 < MAP_MAX; temp2++)
+	    {
+			if (map[temp1][temp2] == '\n')
+			{
+				break;
+			}
+			else if (map[temp1][temp2] == '\0')
+			{
+				break;
+			}
+			else if (map[temp1][temp2] == 'o')
+			{
+				return temp2;
+			}
+	    }
+		if (map[temp1][temp2] == '\0')
+		{
+			break;
+		}
+	}
+	return -1;
+}
+
+int scanmapforstarty()
+{
+	int temp1, temp2; 
+	for (temp1 = 0; temp1 < MAP_MAX; temp1++)
+	{
+		for (temp2 = 0; temp2 < MAP_MAX; temp2++)
+	    {
+			if (map[temp1][temp2] == '\n')
+			{
+				break;
+			}
+			else if (map[temp1][temp2] == '\0')
+			{
+				break;
+			}
+			else if (map[temp1][temp2] == 'o')
+			{
+				return temp1;
+			}
+	    }
+		if (map[temp1][temp2] == '\0')
+		{
+			break;
+		}
+	}
+	return -1;
+}
+
 int getkey()
 {
-  int key = getch();
+	int key = getch();
 
-  if ( key == 0 || key == 224 )
-    key = 256 + getch();
-
-  return key;
+	if (key == 0 || key == 224)
+	{
+		key = 256 + getch();
+	}
+	
+	return key;
 }
 
 
