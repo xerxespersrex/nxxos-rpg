@@ -136,6 +136,43 @@ int scanmapforstarty()
 	return -1;
 }
 
+int drawmap(int x, int y)
+{
+	int temp1, temp2;
+	
+	printf("\n");
+	for (temp1 = y - 2; temp1 < y + 3; temp1++)
+	{
+		for (temp2 = x - 2; temp2 < x + 3 ; temp2++)
+		{
+			if (temp1 == y && temp2 == x)
+			{
+				printf("P");
+			}
+			else
+			{
+				printf("%c", map[temp1][temp2]);
+			}
+			if (map[temp1][temp2 + 1] == '\n')
+			{
+				break;
+			}
+			else if (map[temp1][temp2] == '\0')
+			{
+				return -1;
+			}
+	    }
+		printf("\n");
+		if (map[temp1][temp2] == '\0')
+		{
+			return -1;
+		}
+	}
+
+	printf("\n");
+	return 0;
+}
+
 int getkey()
 {
 	int key = getch();
@@ -152,6 +189,32 @@ int getkey()
 int main()
 {
 	getmap();
+	
+	int playerx = scanmapforstartx();
+	int playery = scanmapforstarty();
+	int key;
+	
+	for (;;)
+	{
+		drawmap(playerx, playery);
+		key = getkey();
+		if (key == KEY_UP && map[playery - 1][playerx] != 'x')
+		{
+			playery--;
+		}
+		else if (key == KEY_DOWN && map[playery + 1][playerx] != 'x')
+		{
+			playery++;
+		}
+		else if (key == KEY_LEFT && map[playery][playerx - 1] != 'x')
+		{
+			playerx--;
+		}
+		else if (key == KEY_RIGHT && map[playery][playerx + 1] != 'x')
+		{
+			playerx++;
+		}
+	}
 	printmap();
 	return 0;
 }
