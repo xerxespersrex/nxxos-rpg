@@ -48,7 +48,6 @@ int getmap()
 			break;
 		}
 	}
-
 	//todo: check map size is at least 5x5 and has a starting "o" spot
 	
 	return 0;
@@ -136,14 +135,14 @@ int scanmapforstarty()
 	return -1;
 }
 
-int drawmap(int x, int y)
+int drawmap(int x, int y, int xsize, int ysize)
 {
 	int temp1, temp2;
 	
 	printf("\n");
-	for (temp1 = y - 2; temp1 < y + 3; temp1++)
+	for (temp1 = y - (ysize / 2) ; temp1 < y + 1 + (ysize / 2); temp1++)
 	{
-		for (temp2 = x - 2; temp2 < x + 3 ; temp2++)
+		for (temp2 = x - (xsize / 2); temp2 < x + 1 + (xsize / 2) ; temp2++)
 		{
 			if (temp1 == y && temp2 == x)
 			{
@@ -185,6 +184,20 @@ int getkey()
 	return key;
 }
 
+int isntwalkable(int tile)
+{
+	switch (tile)
+	{
+		case '\n':
+		case '\0':
+		case 'x':
+		case 'X':
+			return 1;
+		default:
+			return 0;
+	}
+	return 1;
+}
 
 int main()
 {
@@ -192,30 +205,33 @@ int main()
 	
 	int playerx = scanmapforstartx();
 	int playery = scanmapforstarty();
+	int consolexsize = 50;
+	int consoleysize = 50;
 	int key;
-	
+
+	printmap();
+
 	for (;;)
 	{
-		drawmap(playerx, playery);
+		drawmap(playerx, playery, consolexsize, consoleysize);
 		key = getkey();
-		if (key == KEY_UP && map[playery - 1][playerx] != 'x')
+		if (key == KEY_UP && !isntwalkable(map[playery - 1][playerx]))
 		{
 			playery--;
 		}
-		else if (key == KEY_DOWN && map[playery + 1][playerx] != 'x')
+		else if (key == KEY_DOWN && !isntwalkable(map[playery + 1][playerx]))
 		{
 			playery++;
 		}
-		else if (key == KEY_LEFT && map[playery][playerx - 1] != 'x')
+		else if (key == KEY_LEFT && !isntwalkable(map[playery][playerx - 1]))
 		{
 			playerx--;
 		}
-		else if (key == KEY_RIGHT && map[playery][playerx + 1] != 'x')
+		else if (key == KEY_RIGHT && !isntwalkable(map[playery][playerx + 1]))
 		{
 			playerx++;
 		}
 	}
-	printmap();
 	return 0;
 }
 
